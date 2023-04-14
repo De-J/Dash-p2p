@@ -1,0 +1,31 @@
+{
+  "name": "back-end",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@chainsafe/libp2p-noise": "^11.0.4",
+    "@libp2p/mplex": "^7.1.7",
+    "@libp2p/peer-id-factory": "^2.0.3",
+    "@libp2p/tcp": "^6.2.0",
+    "@libp2p/websockets": "^5.0.10",
+    "@multiformats/multiaddr": "^12.1.2",
+    "@nodeutils/defaults-deep": "^1.1.0",
+    "it-map": "^3.0.2",
+    "it-pipe": "^3.0.1",
+    "libp2p": "^0.43.4",
+    "socket.io": "^4.6.1",
+    "uint8arrays": "^4.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
