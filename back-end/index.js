@@ -7,6 +7,7 @@ import { createFromJSON } from '@libp2p/peer-id-factory';
 import nodeID from './node-id.js';
 import { fromString as uint8ArrayFromString } from 'uint8arrays/from-string';
 import { toString as uint8ArrayToString } from 'uint8arrays/to-string';
+import stream from "stream";
 
 async function run() {
   const io = new Server(3001, {
@@ -52,20 +53,25 @@ async function run() {
 
       let str = "";
       for (const key in msgData) str += msgData[key] + ' ';
-
-      pipe(
-        // Source data
-        [uint8ArrayFromString(str)],
-
-        function gen (source) {
-          return (async function* () {
-            let i = 0;
-            while (i < source.length)
-              yield source[i];
-          })
-        },
-        streamObj,
-      )
+      class MyReadable extends stream.Readable {
+        constructor(data, options) {
+          super(options);
+          this.data = data;
+        }
+        _read = (size) => {
+          if (this.data.length) {
+            const chunk = this.data.slice(0, size);
+            this.data = this.data.slice(size, this.data.length);               
+            this.push(chunk);
+          } else this.push(null);  
+        }
+      }
+      let readable = new MyReadable(uint8ArrayFromString(str));
+      
+      readable.on("data", (chunk) => {
+        console.log(chunk);
+        // readable.pipe(streamObj);
+      })
     });
   
   
