@@ -32,9 +32,9 @@ async function run() {
     console.log('connected to: ', connection.remotePeer.toString())
   })
 
+  var streamObj;
   io.on("connection", socket => {
-    var streamObj;
-
+    
     socket.on("dial", async (dialData) => {
       console.log(dialData);
       const idReceiver = await createFromJSON(dialData);
@@ -69,8 +69,8 @@ async function run() {
       let readable = new MyReadable(uint8ArrayFromString(str));
       
       readable.on("data", (chunk) => {
-        console.log(chunk);
-        // readable.pipe(streamObj);
+        // console.log(chunk);
+        pipe(readable, streamObj);
       })
     });
   
